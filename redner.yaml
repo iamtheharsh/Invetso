@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: investo-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: MONGO_URL
+        sync: false
+
+  - type: web
+    name: investo-frontend
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: serve -s build
+    autoDeploy: true
