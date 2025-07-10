@@ -13,10 +13,21 @@ const { OrdersModel } = require("./model/OrdersModel");
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
 
+const authRoutes = require("./routes/auth");
+const passport = require("passport");
+const session = require("express-session");
+
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use(session({ secret: "secretkey", resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use("/auth", authRoutes);
+
 
 app.get("/allHoldings", async (req, res) => {
   let allHoldings = await HoldingsModel.find({});
