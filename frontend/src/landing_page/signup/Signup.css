@@ -20,8 +20,9 @@
   background-color: #f3f7fd;
 }
 
-.zerodha-brand {
-  color: #0055ff;
+.investo-brand {
+  color: #0055ff; /* Or any brand color you prefer */
+  font-weight: 600;
 }
 
 form {

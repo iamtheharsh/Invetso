@@ -47,7 +47,7 @@ function Signup() {
   return (
     <div className="signup-login-container">
       <div className="left-panel">
-        <h2>Welcome to <span className="zerodha-brand">Zerodha</span></h2>
+        <h2>Welcome to <span className="investo-brand">Investo</span></h2>
         <p>Create your account</p>
         <form onSubmit={handleSignup}>
           <input type="text" name="username" placeholder="Username" onChange={handleSignupChange} required />
