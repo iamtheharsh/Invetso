@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-
 import BuyActionWindow from "./BuyActionWindow";
 
 const GeneralContext = React.createContext({
   openBuyWindow: (uid) => {},
   closeBuyWindow: () => {},
+  refreshHoldings: () => {}, // ✅ NEW
 });
 
 export const GeneralContextProvider = (props) => {
@@ -21,11 +21,16 @@ export const GeneralContextProvider = (props) => {
     setSelectedStockUID("");
   };
 
+  const refreshHoldings = () => {
+    window.location.reload(); // ✅ TEMP SOLUTION: reload to update holdings
+  };
+
   return (
     <GeneralContext.Provider
       value={{
         openBuyWindow: handleOpenBuyWindow,
         closeBuyWindow: handleCloseBuyWindow,
+        refreshHoldings,
       }}
     >
       {props.children}

@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
-
 import GeneralContext from "./GeneralContext";
 
 import "./BuyActionWindow.css";
@@ -11,15 +9,24 @@ const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
 
-  const handleBuyClick = () => {
-    axios.post("http://localhost:3002/newOrder", {
-      name: uid,
-      qty: stockQuantity,
-      price: stockPrice,
-      mode: "BUY",
-    });
+  const handleBuyClick = async () => {
+    try {
+      await axios.post("http://localhost:3002/newOrder", {
+        name: uid,
+        qty: stockQuantity,
+        price: stockPrice,
+        mode: "BUY",
+      });
 
-    GeneralContext.closeBuyWindow();
+      // refresh holdings from backend
+      if (GeneralContext.refreshHoldings) {
+        GeneralContext.refreshHoldings();
+      }
+
+      GeneralContext.closeBuyWindow();
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
   };
 
   const handleCancelClick = () => {
@@ -29,7 +36,7 @@ const BuyActionWindow = ({ uid }) => {
   return (
     <div className="container" id="buy-window" draggable="true">
       <div className="regular-order">
-        <div className="inputs">  
+        <div className="inputs">
           <fieldset>
             <legend>Qty.</legend>
             <input
@@ -55,7 +62,7 @@ const BuyActionWindow = ({ uid }) => {
       </div>
 
       <div className="buttons">
-        <span>Margin required ₹140.65</span>
+        <span>Margin required ₹{(stockQuantity * stockPrice).toFixed(2)}</span>
         <div>
           <Link className="btn btn-blue" onClick={handleBuyClick}>
             Buy
